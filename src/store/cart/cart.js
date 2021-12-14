@@ -1,20 +1,28 @@
 export default {
   namespaced: true,
   state: {
-    cart: [],
+    cart: localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [],
+  },
+  mutations: {
+    setCart(state, value) {
+      state.cart = value;
+      localStorage.setItem('cart', JSON.stringify(value));
+    },
+    pushCart(state, element) {
+      state.cart.push(element);
+      localStorage.setItem('cart', JSON.stringify(element));
+    },
   },
   actions: {
-    async addToCart({ state }, elementID) {
+    async addToCart({ state, commit }, elementID) {
       console.log(`element id ${elementID}`);
       const thisElement = state.cart.find((el) => el.id === elementID);
 
       if (thisElement) {
         if (thisElement.count < process.env.VUE_APP_IN_CART) thisElement.count += 1;
       } else {
-        state.cart.push({ id: elementID, count: 1 });
+        commit('pushCart', { id: elementID, count: 1 });
       }
-
-      console.log(state.cart);
     },
     async toggleCart({ state, dispatch }, elementID) {
       if (state.cart.some((el) => el.id === elementID)) {
@@ -23,18 +31,19 @@ export default {
         dispatch('addToCart', elementID);
       }
     },
-    async updateCount({ state, dispatch }, { id, count }) {
+    async updateCount({ state, dispatch, commit }, { id, count }) {
       if (count <= 0) dispatch('removeFromCart', id);
       else if (count <= process.env.VUE_APP_IN_CART) {
-        const thisElement = state.cart.find((el) => el.id === id);
-        thisElement.count = count;
+        /* const thisElement = state.cart.find((el) => el.id === id);
+        thisElement.count = count; */
+        commit('setCart', state.cart.map((el) => (el.id === id ? { ...el, count } : el)));
       }
     },
-    async removeFromCart({ state }, elementID) {
-      state.cart = state.cart.filter((el) => el.id !== elementID);
+    async removeFromCart({ state, commit }, elementID) {
+      commit('setCart', state.cart.filter((el) => el.id !== elementID));
     },
-    async clearCart({ state }) {
-      state.cart = [];
+    async clearCart({ commit }) {
+      commit('setCart', []);
     },
   },
   getters: {

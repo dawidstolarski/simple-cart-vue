@@ -23,10 +23,11 @@
 .products {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
   flex-wrap: wrap;
   column-gap: 10px;
   row-gap: 20px;
+  align-content: flex-start;
 
   background: #F3F3F3;
   border-radius: 30px 30px 0 0;

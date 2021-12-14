@@ -1,14 +1,16 @@
 <template>
   <div class="cart">
     <Nav type="cart" title="Shopping Cart"/>
-    <CartElement
-      v-for="element in cartElementsWithData"
-      :key="element.id"
-      :id="element.id"
-      :count="element.count"
-      :name="element.product.name"
-      :price="element.product.price"
-      :image="element.product.image"/>
+    <div class="cart-container">
+      <CartElement
+        v-for="element in cartElementsWithData"
+        :key="element.id"
+        :id="element.id"
+        :count="element.count"
+        :name="element.product.name"
+        :price="element.product.price"
+        :image="element.product.image"/>
+    </div>
     <div v-if="cartElements.length <= 0">
       Cart is empty...
     </div>
@@ -32,13 +34,17 @@ export default {
     cartElementsWithData() {
       return this.cartElements.map((el) => {
         const product = this.products.find((p) => p.id === el.id);
-        return { product, ...el };
-      });
+        return product ? { product, ...el } : el;
+      }).filter((el) => el.product);
     },
   },
 };
 </script>
 
 <style scoped>
-
+  .cart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 </style>

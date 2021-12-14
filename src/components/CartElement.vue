@@ -56,6 +56,7 @@ export default {
   flex-direction: row;
   align-items: flex-start;
   margin: 25px;
+  width: 326px;
 }
 .image-container {
   display: flex;
