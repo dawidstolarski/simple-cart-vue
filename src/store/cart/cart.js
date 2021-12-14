@@ -10,7 +10,7 @@ export default {
     },
     pushCart(state, element) {
       state.cart.push(element);
-      localStorage.setItem('cart', JSON.stringify(element));
+      localStorage.setItem('cart', JSON.stringify(state.cart));
     },
   },
   actions: {
