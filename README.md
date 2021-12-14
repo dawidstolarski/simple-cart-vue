@@ -1,23 +1,34 @@
-# scommerce
+# Development
 
 ## Project setup
 ```
 npm install
 ```
-
 ### Compiles and hot-reloads for development
 ```
 npm run serve
 ```
-
 ### Compiles and minifies for production
 ```
 npm run build
 ```
-
 ### Lints and fixes files
 ```
 npm run lint
+```
+
+# Production
+### Build
+```
+npm run docker:build
+```
+### Run
+```
+npm run docker:up
+```
+### Close
+```
+npm run docker:down
 ```
 
 ### Customize configuration
